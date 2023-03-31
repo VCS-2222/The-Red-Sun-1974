@@ -20,6 +20,7 @@ public class PlayerAnimatorController : MonoBehaviour
     [Header("Bools of actions")]
     public bool isWalking;
     public bool isRunning;
+    public bool isCrouching;
 
     public bool walkingForward;
     public bool walkingBackward;
@@ -30,6 +31,7 @@ public class PlayerAnimatorController : MonoBehaviour
     {
         isWalking = playerMoveScript.isWalking;
         isRunning = playerMoveScript.isRunning;
+        isCrouching = playerMoveScript.isCrouching;
 
         yAxis = Input.GetAxis("Vertical");
         xAxis = Input.GetAxis("Horizontal");
@@ -42,6 +44,8 @@ public class PlayerAnimatorController : MonoBehaviour
         {
             currentMaxParameter = 0.5f;
         }
+
+        animator.SetBool("crouched", isCrouching);
 
         walkingForward = yAxis > 0;
         walkingBackward = yAxis < 0;

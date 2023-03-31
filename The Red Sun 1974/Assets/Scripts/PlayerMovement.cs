@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Booleans of/for actions")]
     [SerializeField] public bool canMove;
-    [SerializeField] private bool isUsingGravity;
     [SerializeField] private bool canRun;
     [SerializeField] private bool isGrounded;
 
@@ -56,6 +55,9 @@ public class PlayerMovement : MonoBehaviour
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckSphereSize, walkableLayer);
 
+        if (!canMove)
+            return;
+
         InputOfMovement();
 
         HandleDebugStates();
@@ -67,6 +69,12 @@ public class PlayerMovement : MonoBehaviour
 
         characterController.Move(velocity * Time.deltaTime);
 
+        if (!canMove)
+            return;
+
+        movementDirection = transform.forward * backAndForthAxis + transform.right * leftAndRightAxis;
+
+        characterController.Move(movementDirection.normalized * currentSpeed * Time.deltaTime);
         if (isGrounded)
         {
             movementDirection = transform.forward * backAndForthAxis + transform.right * leftAndRightAxis;
@@ -85,19 +93,18 @@ public class PlayerMovement : MonoBehaviour
         leftAndRightAxis = Input.GetAxis("Horizontal");
         backAndForthAxis = Input.GetAxis("Vertical");
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && canRun)
         {
             currentSpeed = runningSpeed;
+        }
+        else if(isCrouching)
+        {
+            currentSpeed = crouchingSpeed;
         }
         else
         {
             currentSpeed = walkingSpeed;
         }
-
-        //if (!isWalking && !isRunning)
-        //{
-        //    currentSpeed = 0;
-        //}
 
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -111,18 +118,28 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isCrouching)
         {
-            characterController.height = 0.7f;
+            canRun = false;
+            states = movementStates.crouching;
+            currentSpeed = crouchingSpeed;
+            characterController.height = 1.6f;
+            characterController.center = new Vector3(0,0.1f,0);
         }
         else
         {
+            canRun = true;
             characterController.height = 1.8f;
+            characterController.center = new Vector3(0, 0.15f, 0);
         }
     }
 
     void HandleDebugStates()
     {
-        if (movementDirection.magnitude > 0.5f && Input.GetKey(KeyCode.LeftShift))
+        if (movementDirection.magnitude > 0.5f && Input.GetKey(KeyCode.LeftShift) && canRun)
         {
+            if (isCrouching)
+            {
+                canRun = false;
+            }
             states = movementStates.running;
             isRunning = true;
             isWalking = false;

@@ -19,6 +19,7 @@ public class PedestrianNPC : MonoBehaviour
     [SerializeField] private bool canWander;
     [SerializeField] private bool canStopAtPoint;
     [SerializeField] private bool hasPresetPath;
+    [SerializeField] bool hasRandomSpeed;
 
     [Header("Travel")]
     [SerializeField] private Transform[] pathWaypoints;
@@ -27,7 +28,14 @@ public class PedestrianNPC : MonoBehaviour
 
     private void Start()
     {
-        agent.speed = speed;
+        if (hasRandomSpeed)
+        {
+            agent.speed = Random.Range(0.7f, 1.3f);
+        }
+        else
+        {
+            agent.speed = speed;
+        }
         agent.angularSpeed = turnSpeed;
         agent.stoppingDistance = stoppingDistance;
         animator.speed = speed;

@@ -34,9 +34,10 @@ public class PlayerInteractor : MonoBehaviour
         {
             playerInventory.CheckForItem(hit);
         }
-        else
+        
+        if(hit.collider.tag == "Pedestrian")
         {
-
+            hit.collider.GetComponentInChildren<PedestrianNPCVoicelineManager>().DoRandomVoiceline();
         }
     }
 }

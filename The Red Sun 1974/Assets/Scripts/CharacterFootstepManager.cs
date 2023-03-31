@@ -6,6 +6,7 @@ public class CharacterFootstepManager : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Rigidbody rb;
+    public Transform raycastPoint;
 
     [Header("Audio")]
     [SerializeField] AudioClip[] concrete;
@@ -21,7 +22,7 @@ public class CharacterFootstepManager : MonoBehaviour
     {
         if (rb.velocity.magnitude > 0.2f)
         {
-            if(Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit hit, 2f))
+            if(Physics.Raycast(raycastPoint.transform.position, Vector3.down, out RaycastHit hit, 2f))
             {
                 switch (hit.collider.tag)
                 {
