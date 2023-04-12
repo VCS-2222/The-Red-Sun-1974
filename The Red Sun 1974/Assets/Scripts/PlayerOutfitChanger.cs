@@ -6,33 +6,20 @@ public class PlayerOutfitChanger : MonoBehaviour
 {
     [Header("Materials")]
     [SerializeField] SkinnedMeshRenderer playerOutfit;
-    //[SerializeField] Material prisonOutfit;
+    [SerializeField] Material prisonOutfit;
     //[SerializeField] Material casualOutfit;
     //[SerializeField] Material constructionWorkerOutfit;
-    //[SerializeField] Material rebelOutfit;
-    //[SerializeField] Material maintananceWorkerOutfit;
+    [SerializeField] Material rebelOutfit;
+    [SerializeField] Material maintananceWorkerOutfit;
     [SerializeField] Material fancySuitOutfit;
     [SerializeField] Material fancyCasualOutfit;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ChangeOutfit("fancySuitOutfit");
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            ChangeOutfit("fancyCasualOutfit");
-        }
-    }
-
     public void ChangeOutfit(string name)
     {
-        //if(name == "prisonOutfit")
-        //{
-        //    playerOutfit.material = prisonOutfit;
-        //}
+        if (name == "PrisonOutfit")
+        {
+            playerOutfit.material = prisonOutfit;
+        }
 
         //if (name == "casualOutfit")
         //{
@@ -44,22 +31,22 @@ public class PlayerOutfitChanger : MonoBehaviour
         //    playerOutfit.material = constructionWorkerOutfit;
         //}
 
-        //if (name == "rebelOutfit")
-        //{
-        //    playerOutfit.material = rebelOutfit;
-        //}
+        if (name == "RebelOutfit")
+        {
+            playerOutfit.material = rebelOutfit;
+        }
 
-        //if (name == "maintananceWorkerOutfit")
-        //{
-        //    playerOutfit.material = maintananceWorkerOutfit;
-        //}
+        if (name == "MaintananceWorkerOutfit")
+        {
+            playerOutfit.material = maintananceWorkerOutfit;
+        }
 
-        if (name == "fancySuitOutfit")
+        if (name == "FancySuitOutfit")
         {
             playerOutfit.material = fancySuitOutfit;
         }
 
-        if (name == "fancyCasualOutfit")
+        if (name == "FancyCasualOutfit")
         {
             playerOutfit.material = fancyCasualOutfit;
         }

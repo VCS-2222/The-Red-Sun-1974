@@ -19,10 +19,12 @@ public class PedestrianNPC : MonoBehaviour
     [SerializeField] private bool canWander;
     [SerializeField] private bool canStopAtPoint;
     [SerializeField] private bool hasPresetPath;
+    [SerializeField] private bool hasSetDestination;
     [SerializeField] bool hasRandomSpeed;
 
     [Header("Travel")]
     [SerializeField] private Transform[] pathWaypoints;
+    [SerializeField] private Transform finalDestination;
     [SerializeField] int currentPathPoint;
     [SerializeField] float roamReach;
 
@@ -68,6 +70,11 @@ public class PedestrianNPC : MonoBehaviour
         {
 
         }
+
+        if (hasSetDestination)
+        {
+            TravelToFinalDestination();
+        }
     }
 
     private void DoPresetPath()
@@ -107,5 +114,12 @@ public class PedestrianNPC : MonoBehaviour
         {
 
         }
+    }
+
+    void TravelToFinalDestination()
+    {
+        canWander = false;
+        hasPresetPath = false;
+        agent.destination = finalDestination.position;
     }
 }

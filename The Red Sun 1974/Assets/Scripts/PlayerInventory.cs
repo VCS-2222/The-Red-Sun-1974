@@ -1,25 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
     [Header("Needed Components")]
     [SerializeField] private GameObject itemHolder;
     [SerializeField] PlayerAnimatorController animatorController;
+    public PlayerBindings binds;
 
     [Header("Debug")]
     public bool hasItem;
     [SerializeField] private GameObject currentItemHeld;
 
-    private void Update()
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        binds = new PlayerBindings();
+        binds.Player.ItemInteraction.performed += t => CheckIfHasItem();
+    }
+
+    private void OnEnable()
+    {
+        binds.Enable();
+    }
+
+    private void OnDisable()
+    {
+        binds.Disable();
+    }
+
+    public void CheckIfHasItem()
+    {
+        if (hasItem)
         {
-            if (hasItem)
-            {
-                DropItem();
-            }
+            DropItem();
         }
     }
 

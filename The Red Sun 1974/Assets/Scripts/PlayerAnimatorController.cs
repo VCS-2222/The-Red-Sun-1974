@@ -7,12 +7,14 @@ public class PlayerAnimatorController : MonoBehaviour
     [Header("Referanced Components")]
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerMovement playerMoveScript;
+    [SerializeField] private PlayerCamera playerCameraScript;
 
     [Header("Parameters")]
     float xAxis;
     float yAxis;
     [SerializeField] float xParameter;
     [SerializeField] float yParameter;
+    public PlayerBindings animatorParameters;
 
     [SerializeField] private float transforSpeed;
     public float currentMaxParameter;
@@ -27,14 +29,33 @@ public class PlayerAnimatorController : MonoBehaviour
     public bool walkingRight;
     public bool walkingLeft;
 
+    private void Awake()
+    {
+        animatorParameters = new PlayerBindings();
+        animatorParameters.Player.BodyMovement.performed += t => HandleAxis(t.ReadValue<Vector2>());
+    }
+
+    private void OnEnable()
+    {
+        animatorParameters.Enable();
+    }
+
+    private void OnDisable()
+    {
+        animatorParameters.Disable();
+    }
+
+    void HandleAxis(Vector2 axis)
+    {
+        yAxis = axis.y;
+        xAxis = axis.x;
+    }
+
     private void Update()
     {
         isWalking = playerMoveScript.isWalking;
         isRunning = playerMoveScript.isRunning;
         isCrouching = playerMoveScript.isCrouching;
-
-        yAxis = Input.GetAxis("Vertical");
-        xAxis = Input.GetAxis("Horizontal");
 
         if (isRunning)
         {
@@ -47,10 +68,10 @@ public class PlayerAnimatorController : MonoBehaviour
 
         animator.SetBool("crouched", isCrouching);
 
-        walkingForward = yAxis > 0;
-        walkingBackward = yAxis < 0;
-        walkingRight = xAxis > 0;
-        walkingLeft = xAxis < 0;
+        walkingForward = yAxis > 0.2f;
+        walkingBackward = yAxis < -0.2f;
+        walkingRight = xAxis > 0.2f;
+        walkingLeft = xAxis < -0.2f;
 
         DecreaseAnimatorParametersIfNotUsed();
         UpdateAnimatorParameters();
@@ -141,6 +162,28 @@ public class PlayerAnimatorController : MonoBehaviour
                 xParameter = 0;
             }
         }
+    }
+
+    public void SittingMechanicOn()
+    {
+        playerMoveScript.canMove = false;
+        animator.SetBool("sitting", true);
+        if(playerMoveScript.isCrouching == true)
+        {
+            playerMoveScript.HandleCrouch();
+        }
+        playerCameraScript.canRotate = false;
+        playerMoveScript.GetComponent<Rigidbody>().isKinematic = true;
+        playerMoveScript.GetComponent<CharacterController>().enabled = false;
+    }
+
+    public void SittingMechanicOff()
+    {
+        playerMoveScript.GetComponent<CharacterController>().enabled = true;
+        animator.SetBool("sitting", false);
+        playerMoveScript.GetComponent<Rigidbody>().isKinematic = false;
+        playerCameraScript.canRotate = true;
+        playerMoveScript.canMove = true;
     }
 
     public void UseAnimatorArmLayer()

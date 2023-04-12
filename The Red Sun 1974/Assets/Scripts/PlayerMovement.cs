@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CharacterController characterController;
     [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private Transform groundCheck;
+    public PlayerBindings playerControls;
 
     [Header("Booleans of/for actions")]
     [SerializeField] public bool canMove;
@@ -44,6 +46,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public bool isCrouching;
     [SerializeField] private LayerMask walkableLayer;
 
+    private void Awake()
+    {
+        playerControls = new PlayerBindings();
+    }
+
+    private void OnEnable()
+    {
+        playerControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControls.Disable();
+    }
+
     private void Start()
     {
         currentSpeed = walkingSpeed;
@@ -58,6 +75,9 @@ public class PlayerMovement : MonoBehaviour
         if (!canMove)
             return;
 
+        playerControls.Player.BodyMovement.performed += t => HandleAxis(t.ReadValue<Vector2>());
+        playerControls.Player.Crouching.performed += t => HandleCrouch();
+
         InputOfMovement();
 
         HandleDebugStates();
@@ -67,10 +87,10 @@ public class PlayerMovement : MonoBehaviour
     {
         velocity.y -= gravity * Time.deltaTime;
 
-        characterController.Move(velocity * Time.deltaTime);
-
         if (!canMove)
             return;
+
+        characterController.Move(velocity * Time.deltaTime);
 
         movementDirection = transform.forward * backAndForthAxis + transform.right * leftAndRightAxis;
 
@@ -88,12 +108,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void HandleAxis(Vector2 direction)
+    {
+        leftAndRightAxis = direction.x;
+        backAndForthAxis = direction.y;
+    }
+
     void InputOfMovement()
     {
-        leftAndRightAxis = Input.GetAxis("Horizontal");
-        backAndForthAxis = Input.GetAxis("Vertical");
-
-        if (Input.GetKey(KeyCode.LeftShift) && canRun)
+        if (playerControls.Player.Running.IsInProgress() && canRun)
         {
             currentSpeed = runningSpeed;
         }
@@ -105,17 +128,12 @@ public class PlayerMovement : MonoBehaviour
         {
             currentSpeed = walkingSpeed;
         }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            isCrouching = !isCrouching;
-
-            HandleCrouch();
-        }
     }
 
-    void HandleCrouch()
+    public void HandleCrouch()
     {
+        isCrouching = !isCrouching;
+
         if (isCrouching)
         {
             canRun = false;
@@ -124,7 +142,8 @@ public class PlayerMovement : MonoBehaviour
             characterController.height = 1.6f;
             characterController.center = new Vector3(0,0.1f,0);
         }
-        else
+        
+        if(!isCrouching)
         {
             canRun = true;
             characterController.height = 1.8f;
@@ -134,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleDebugStates()
     {
-        if (movementDirection.magnitude > 0.5f && Input.GetKey(KeyCode.LeftShift) && canRun)
+        if (movementDirection.magnitude > 0.5f && playerControls.Player.Running.IsInProgress() && canRun)
         {
             if (isCrouching)
             {

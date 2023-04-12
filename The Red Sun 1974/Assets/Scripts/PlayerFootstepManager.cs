@@ -6,7 +6,7 @@ public class PlayerFootstepManager : MonoBehaviour
 {
     [Header("Needed Components")]
     [SerializeField] PlayerMovement playerMovement;
-    public Camera playerCamera;
+    [SerializeField] Transform raycastPoint;
 
     [Header("Audio")]
     [SerializeField] AudioClip[] concrete;
@@ -22,7 +22,7 @@ public class PlayerFootstepManager : MonoBehaviour
     {
         if (playerMovement.movementDirection.magnitude > 0.2f)
         {
-            if (Physics.Raycast(playerCamera.transform.position, Vector3.down, out RaycastHit hit, 2f))
+            if (Physics.Raycast(raycastPoint.position, Vector3.down, out RaycastHit hit, 2f))
             {
                 switch (hit.collider.tag)
                 {
