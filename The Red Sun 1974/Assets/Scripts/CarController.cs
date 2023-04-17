@@ -22,6 +22,12 @@ public class CarController : MonoBehaviour
     [SerializeField] GameObject[] headLights;
     [SerializeField] GameObject[] brakeLights;
 
+    [Header("Audio")]
+    [SerializeField] float pitch;
+    [SerializeField] float volume;
+    [SerializeField] AudioSource engineAudioSource;
+    [SerializeField] AudioSource brakeAudioSkidSource;
+
     [Header("Components and Debug")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] bool isUsing;
@@ -51,6 +57,8 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
+        HandleAudio();
+
         if (!isUsing)
         {
             ApplyBrakes();
@@ -90,52 +98,6 @@ public class CarController : MonoBehaviour
         RearWheelControl();
     }
 
-    void HandleAxis(Vector2 axis)
-    {
-        verticalInput = axis.y;
-        horizontalInput = axis.x;
-    }
-
-    void UseBrakeLights(bool isOn)
-    {
-        if (isOn)
-        {
-            foreach(GameObject bl in brakeLights)
-            {
-                bl.gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            foreach(GameObject bl in brakeLights)
-            {
-                bl.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    void UseHeadlights()
-    {
-        if (!isUsing) return;
-
-        headlightsUsed = !headlightsUsed;
-
-        if (headlightsUsed)
-        {
-            foreach (GameObject hl in headLights)
-            {
-                hl.gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            foreach (GameObject hl in headLights)
-            {
-                hl.gameObject.SetActive(false);
-            }
-        }
-    }
-
     private void LateUpdate()
     {
         //frontwheels
@@ -147,6 +109,30 @@ public class CarController : MonoBehaviour
         WheelSync(rearWheelColliders[1], wheelRenderers[3]);
     }
 
+    void HandleAudio()
+    {
+        float speedVar = rb.velocity.magnitude;
+
+        if (!isUsing)
+        {
+            engineAudioSource.volume = 0f;
+        }
+        else
+        {
+            if (speedVar > 1f)
+            {
+                engineAudioSource.volume = volume;
+                engineAudioSource.pitch = pitch;
+            }
+            else
+            {
+                engineAudioSource.volume = 0.1f;
+                engineAudioSource.pitch = 0.5f;
+            }
+        }
+    }
+
+    #region wheelLogic
     void ApplyBrakes()
     {
         verticalInput = 0;
@@ -181,6 +167,67 @@ public class CarController : MonoBehaviour
         col.GetWorldPose(out vecs, out rots);
         mesh.position = vecs;
         mesh.rotation = rots;
+    }
+    #endregion
+
+    #region playerMechanics
+    void HandleAxis(Vector2 axis)
+    {
+        verticalInput = axis.y;
+        horizontalInput = axis.x;
+    }
+
+    void UseBrakeLights(bool isOn)
+    {
+        if (isOn)
+        {
+            foreach (GameObject bl in brakeLights)
+            {
+                bl.gameObject.SetActive(true);
+            }
+
+            if(rb.velocity.magnitude > 1f)
+            {
+                if (brakeAudioSkidSource.isPlaying)
+                {
+                    return;
+                }
+                else
+                {
+                    brakeAudioSkidSource.Play();
+                }
+            }
+        }
+        else
+        {
+            brakeAudioSkidSource.Stop();
+            foreach (GameObject bl in brakeLights)
+            {
+                bl.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    void UseHeadlights()
+    {
+        if (!isUsing) return;
+
+        headlightsUsed = !headlightsUsed;
+
+        if (headlightsUsed)
+        {
+            foreach (GameObject hl in headLights)
+            {
+                hl.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (GameObject hl in headLights)
+            {
+                hl.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void UseCar(GameObject player)
@@ -221,4 +268,5 @@ public class CarController : MonoBehaviour
             playerReferance = null;
         }
     }
+    #endregion
 }

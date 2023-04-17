@@ -63,6 +63,7 @@ public class PauseMenuLogic : MonoBehaviour
     IEnumerator InitializeLevelLeave()
     {
         loadingScreen.SetActive(true);
+        Time.timeScale = normalTime;
 
         yield return new WaitForSecondsRealtime(1f);
 

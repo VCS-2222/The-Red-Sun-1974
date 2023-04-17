@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         running,
         crouching
     }
+
     [Header("Debug")]
     [SerializeField] float velocityMagnitudeDebugger;
     [SerializeField] float groundCheckSphereSize;
