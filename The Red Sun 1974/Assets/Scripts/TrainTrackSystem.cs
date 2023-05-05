@@ -11,16 +11,13 @@ public class TrainTrackSystem : MonoBehaviour
         public GameObject cart;
         public int currentWaypointTarget;
         public Vector3 startLerpPosition;
-        public Quaternion startLerpRotation;
 
         public Vector3 targetWaypoint;
-        public Quaternion targetQuaternion;
         public float elapsedTime;
 
         public void ResetStartTrans()
         {
             startLerpPosition = cart.transform.position;
-            startLerpRotation = cart.transform.rotation;
         }
     }
 
@@ -29,7 +26,6 @@ public class TrainTrackSystem : MonoBehaviour
     public float speed;
     public float maximumSpeed;
     public float speedChangerMultiplier;
-    public LineRenderer railPathRenderer;
     public Transform[] waypoints;
     public bool isClosedTrack;
     public bool trainIsStopped;
@@ -51,23 +47,15 @@ public class TrainTrackSystem : MonoBehaviour
 
     private void Start()
     {
-        for(int t = 0; t < trainCar.Length; t++)
+        for (int t = 0; t < trainCar.Length; t++)
         {
-            trainCar[t].targetWaypoint = waypoints[0].position;
             trainCar[t].ResetStartTrans();
+            trainCar[t].targetWaypoint = waypoints[0].position;
         }
-        //railPathRenderer.SetWidth(1, 1);
     }
 
     private void Update()
     {
-        //railPathRenderer.loop = isClosedTrack;
-        //for (int i = 0; i < transform.childCount; i++)
-        //{
-        //    railPathRenderer.positionCount = transform.childCount;
-        //    railPathRenderer.SetPosition(i, waypoints[i].position);
-        //}
-
         TrainCartLogic();
 
         if (trainIsStopping)
@@ -180,11 +168,11 @@ public class TrainTrackSystem : MonoBehaviour
             if (trainCar[t].cart.transform.position == trainCar[t].targetWaypoint)
             {
                 trainCar[t].currentWaypointTarget++;
-            }
 
-            if (trainCar[t].currentWaypointTarget > waypoints.Length && !isClosedTrack)
-            {
-                trainIsStopped = true;
+                if (trainCar[t].currentWaypointTarget > waypoints.Length && !isClosedTrack)
+                {
+                    trainIsStopped = true;
+                }
             }
 
             for (int i = 0; i < trainCar[t].currentWaypointTarget; i++)

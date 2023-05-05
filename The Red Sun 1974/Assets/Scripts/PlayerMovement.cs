@@ -140,8 +140,8 @@ public class PlayerMovement : MonoBehaviour
             canRun = false;
             states = movementStates.crouching;
             currentSpeed = crouchingSpeed;
-            characterController.height = 1.6f;
-            characterController.center = new Vector3(0,0.1f,0);
+            characterController.height = 1.3f;
+            characterController.center = new Vector3(0,-0.05f,0);
         }
         
         if(!isCrouching)
