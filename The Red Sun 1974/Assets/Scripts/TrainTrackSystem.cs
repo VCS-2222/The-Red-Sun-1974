@@ -30,6 +30,7 @@ public class TrainTrackSystem : MonoBehaviour
     public bool isClosedTrack;
     public bool trainIsStopped;
     public bool trainIsStopping;
+    public float timeWaitingAfterStopping;
 
     public enum trainStates
     {
@@ -53,17 +54,26 @@ public class TrainTrackSystem : MonoBehaviour
             trainCar[t].targetWaypoint = waypoints[0].position;
         }
     }
-
+    public float debugVel;
     private void Update()
     {
         TrainCartLogic();
 
+        debugVel = trainCar[0].cart.GetComponent<Rigidbody>().velocity.magnitude;
+
         if (trainIsStopping)
         {
+            for (int i = 0; i < trainCar.Length; i++)
+            {
+                if(trainCar[0].cart.GetComponent<Rigidbody>().velocity.magnitude == 0)
+                {
+                    StartCoroutine(departureTrain());
+                }
+            }
+
             StopOverTime();
         }
-
-        if (!trainIsStopping)
+        else
         {
             StartOverTime();
         }
@@ -129,6 +139,13 @@ public class TrainTrackSystem : MonoBehaviour
         {
             trainSpeedStates = trainStates.stationary;
         }
+    }
+
+    IEnumerator departureTrain()
+    {
+        yield return new WaitForSeconds(timeWaitingAfterStopping);
+
+        trainIsStopping = false;
     }
 
     public void StopOverTime()
