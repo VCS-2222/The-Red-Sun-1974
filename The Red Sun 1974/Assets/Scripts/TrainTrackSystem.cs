@@ -59,7 +59,7 @@ public class TrainTrackSystem : MonoBehaviour
     {
         TrainCartLogic();
 
-        debugVel = trainCar[0].cart.GetComponent<Rigidbody>().velocity.magnitude;
+        //debugVel = trainCar[0].cart.GetComponent<Rigidbody>().velocity.magnitude;
 
         if (trainIsStopping)
         {
