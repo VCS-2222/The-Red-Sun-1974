@@ -493,6 +493,15 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Submit"",
+                    ""type"": ""Button"",
+                    ""id"": ""8dfa8c35-da21-4552-aa03-97447baefab4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -627,6 +636,39 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""action"": ""Navigation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd31de91-a72c-4987-a8b1-71df55b20719"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7857894-7118-4a56-b0e6-8250b63c4d1c"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""55104451-f040-4b37-ab4d-0535b8d1a59f"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -848,6 +890,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_PullUpPauseMenu = m_UI.FindAction("Pull Up Pause Menu", throwIfNotFound: true);
         m_UI_Navigation = m_UI.FindAction("Navigation", throwIfNotFound: true);
+        m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
         // Free Roam Camera
         m_FreeRoamCamera = asset.FindActionMap("Free Roam Camera", throwIfNotFound: true);
         m_FreeRoamCamera_MouseMovement = m_FreeRoamCamera.FindAction("Mouse Movement", throwIfNotFound: true);
@@ -1037,12 +1080,14 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_PullUpPauseMenu;
     private readonly InputAction m_UI_Navigation;
+    private readonly InputAction m_UI_Submit;
     public struct UIActions
     {
         private @PlayerBindings m_Wrapper;
         public UIActions(@PlayerBindings wrapper) { m_Wrapper = wrapper; }
         public InputAction @PullUpPauseMenu => m_Wrapper.m_UI_PullUpPauseMenu;
         public InputAction @Navigation => m_Wrapper.m_UI_Navigation;
+        public InputAction @Submit => m_Wrapper.m_UI_Submit;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1058,6 +1103,9 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                 @Navigation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigation;
                 @Navigation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigation;
                 @Navigation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigation;
+                @Submit.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
+                @Submit.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
+                @Submit.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1068,6 +1116,9 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                 @Navigation.started += instance.OnNavigation;
                 @Navigation.performed += instance.OnNavigation;
                 @Navigation.canceled += instance.OnNavigation;
+                @Submit.started += instance.OnSubmit;
+                @Submit.performed += instance.OnSubmit;
+                @Submit.canceled += instance.OnSubmit;
             }
         }
     }
@@ -1148,6 +1199,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
     {
         void OnPullUpPauseMenu(InputAction.CallbackContext context);
         void OnNavigation(InputAction.CallbackContext context);
+        void OnSubmit(InputAction.CallbackContext context);
     }
     public interface IFreeRoamCameraActions
     {
