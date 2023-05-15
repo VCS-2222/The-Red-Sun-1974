@@ -502,13 +502,22 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Open Journal"",
+                    ""type"": ""Button"",
+                    ""id"": ""c9fe520c-1a1e-4f87-a049-ffe990df370e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""b9fd61b7-7204-415a-951c-ce18add2e1e0"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -667,6 +676,39 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5dafc3f-2d43-4565-b85e-bedb565d2dd3"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Journal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1ce4605-1cf4-472a-8ff6-ffdbef3d2e7d"",
+                    ""path"": ""<DualShockGamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Journal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3647fb4e-fc50-404b-9654-62861f1d79fe"",
+                    ""path"": ""<XInputController>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Journal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -891,6 +933,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
         m_UI_PullUpPauseMenu = m_UI.FindAction("Pull Up Pause Menu", throwIfNotFound: true);
         m_UI_Navigation = m_UI.FindAction("Navigation", throwIfNotFound: true);
         m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
+        m_UI_OpenJournal = m_UI.FindAction("Open Journal", throwIfNotFound: true);
         // Free Roam Camera
         m_FreeRoamCamera = asset.FindActionMap("Free Roam Camera", throwIfNotFound: true);
         m_FreeRoamCamera_MouseMovement = m_FreeRoamCamera.FindAction("Mouse Movement", throwIfNotFound: true);
@@ -1081,6 +1124,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_PullUpPauseMenu;
     private readonly InputAction m_UI_Navigation;
     private readonly InputAction m_UI_Submit;
+    private readonly InputAction m_UI_OpenJournal;
     public struct UIActions
     {
         private @PlayerBindings m_Wrapper;
@@ -1088,6 +1132,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
         public InputAction @PullUpPauseMenu => m_Wrapper.m_UI_PullUpPauseMenu;
         public InputAction @Navigation => m_Wrapper.m_UI_Navigation;
         public InputAction @Submit => m_Wrapper.m_UI_Submit;
+        public InputAction @OpenJournal => m_Wrapper.m_UI_OpenJournal;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1106,6 +1151,9 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                 @Submit.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
                 @Submit.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
                 @Submit.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
+                @OpenJournal.started -= m_Wrapper.m_UIActionsCallbackInterface.OnOpenJournal;
+                @OpenJournal.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnOpenJournal;
+                @OpenJournal.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnOpenJournal;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1119,6 +1167,9 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                 @Submit.started += instance.OnSubmit;
                 @Submit.performed += instance.OnSubmit;
                 @Submit.canceled += instance.OnSubmit;
+                @OpenJournal.started += instance.OnOpenJournal;
+                @OpenJournal.performed += instance.OnOpenJournal;
+                @OpenJournal.canceled += instance.OnOpenJournal;
             }
         }
     }
@@ -1200,6 +1251,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
         void OnPullUpPauseMenu(InputAction.CallbackContext context);
         void OnNavigation(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
+        void OnOpenJournal(InputAction.CallbackContext context);
     }
     public interface IFreeRoamCameraActions
     {

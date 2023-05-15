@@ -8,6 +8,8 @@ public class GuardNPC : MonoBehaviour
     [Header("Needed Components")]
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] Animator animator;
+    [SerializeField] Transform sightPoint;
+    [SerializeField] BoxCollider deathTriggerCollider;
 
     [Header("NavMeshAgent Parameters")]
     [SerializeField] private float speed;
@@ -52,9 +54,14 @@ public class GuardNPC : MonoBehaviour
         animator.speed = speed;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         Sight();
+    }
+
+    private void Update()
+    {
+        SetStateOfDeathTirgger();
 
         if (agent.velocity != Vector3.zero)
         {
@@ -146,20 +153,45 @@ public class GuardNPC : MonoBehaviour
         hasPresetPath = false;
         agent.destination = finalDestination.position;
     }
-
     void Sight()
     {
         RaycastHit hit;
-        Physics.BoxCast(this.transform.position, this.transform.localScale, this.transform.forward, out hit, this.transform.rotation, sight);
-
-        if(hit.collider.enabled == true && hit.collider.tag == "Player")
+        if(Physics.Raycast(sightPoint.position, sightPoint.forward, out hit, sight))
         {
-            finalDestination = hit.collider.transform;
-            chasingPlayer = true;
+            if (hit.collider.tag == "Player")
+            {
+                Debug.DrawLine(sightPoint.position, hit.point, Color.red);
+                finalDestination = hit.collider.transform;
+                chasingPlayer = true;
+            }
+            else
+            {
+                return;
+            }
         }
         else
         {
+            return;
+        }
+    }
 
+    void SetStateOfDeathTirgger()
+    {
+        if (chasingPlayer)
+        {
+            deathTriggerCollider.enabled = true;
+        }
+        else
+        {
+            deathTriggerCollider.enabled = false;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            other.GetComponent<PlayerLoseState>().EnableLoseState("Caught by Guard");
         }
     }
 }

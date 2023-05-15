@@ -54,6 +54,7 @@ public class MainMenuLogic : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1.0f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         firstButtonToSelect.Select();
