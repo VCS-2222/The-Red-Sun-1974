@@ -28,12 +28,12 @@ public class GuardNPC : MonoBehaviour
 
     [Header("Guard Factors")]
     [SerializeField] private bool hasGun;
-    [SerializeField] private bool chasingPlayer;
+    [SerializeField] public bool chasingPlayer;
     [SerializeField] float sight;
 
     [Header("Travel")]
     [SerializeField] private Transform[] pathWaypoints;
-    [SerializeField] private Transform finalDestination;
+    [SerializeField] public Transform finalDestination;
     [SerializeField] int currentPathPoint;
     [SerializeField] float roamReach;
 
