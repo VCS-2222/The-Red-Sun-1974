@@ -69,7 +69,31 @@ public class PlayerLoseState : MonoBehaviour
 
         if (deathType == "Hit by Train")
         {
+            titleContext = "A sad sight...";
+            topicContext = "Today an escaped convict of the mines of Area 12 was seen by comrades walk in front of a train. " +
+                           "This is presumed by the people as a suicide, as after the train stopped after the collision a diary was found " +
+                           "on the felon. He had a sad life and with barely any hope as read from his diary, this is an absolute heart-break to " +
+                           "the whole city. As even the worse criminals get a fair share of mental help from the government. Please if you feeel alone " +
+                           "or feel hopeless and aimless in life, call us at 1-800-helpme and we will try our best to save you. In other news, " + 
+                           "pro LGBT laws are getting rewriten and some outright banned? In Area 5 the Govener has taken down some " +
+                           "laws to do with our fellow gay comrades. They speaking of, 'It doesn't make sense why we should have this' and " +
+                           "'Well damn I believe it to just be somewhat unnatural, that's what my grandparents told us from the good late 1800s' " +
+                           ", this being their reasoning. On the other hand most people believe that 'We need these laws in place in case the " +
+                           "government tried something funny!' and 'We are human, all equals in this sociaty right? Then why are we baing punished for " +
+                           "no crimes?', but what do you think? If you believe that are LGBT comrades should keep their protection laws or should we dim down some?";
 
+            title.text = titleContext;
+            content.text = topicContext;
+        }
+
+        if (deathType == "Void")
+        {
+            titleContext = "What!?";
+            topicContext = "How'd you do that? I don't get it? Whether if you wanted to do that or not it's happened " +
+                           "I'm sorry for that... Uhhhhhhhh, just go back to the main menu alright? Maybe retry?";
+
+            title.text = titleContext;
+            content.text = topicContext;
         }
     }
 }

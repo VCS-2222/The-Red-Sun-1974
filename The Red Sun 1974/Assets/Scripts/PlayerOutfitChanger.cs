@@ -21,11 +21,6 @@ public class PlayerOutfitChanger : MonoBehaviour
             playerOutfit.material = prisonOutfit;
         }
 
-        //if (name == "casualOutfit")
-        //{
-        //    playerOutfit.material = casualOutfit;
-        //}
-
         //if (name == "constructionWorkerOutfit")
         //{
         //    playerOutfit.material = constructionWorkerOutfit;
