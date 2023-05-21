@@ -7,13 +7,19 @@ public class JournalFeeder : MonoBehaviour
     public string text;
     [Tooltip("There is only 1 and 2 here, for the left page put 1 and for the right put 2")]
     public int pageNumber;
+    [Tooltip("This sound source will play after the player comes into contact with the trigger")]
+    public AudioSource playSound;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
         {
+            playSound.Play();
             other.GetComponentInChildren<JournalLogic>().AddText(text, pageNumber);
-            Destroy(gameObject);
+            if(playSound.isPlaying == false)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
