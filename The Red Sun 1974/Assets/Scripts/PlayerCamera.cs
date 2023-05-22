@@ -48,6 +48,15 @@ public class PlayerCamera : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.HasKey("controllerConnected"))
+        {
+            ifHasControllerConnected = true;
+        }
+        else
+        {
+            ifHasControllerConnected = false;
+        }
+
         UseMouseCursor();
     }
 

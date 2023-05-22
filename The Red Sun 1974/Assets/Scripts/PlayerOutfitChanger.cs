@@ -8,7 +8,7 @@ public class PlayerOutfitChanger : MonoBehaviour
     [SerializeField] SkinnedMeshRenderer playerOutfit;
     [SerializeField] Material prisonOutfit;
     //[SerializeField] Material casualOutfit;
-    //[SerializeField] Material constructionWorkerOutfit;
+    [SerializeField] Material constructionWorkerOutfit;
     [SerializeField] Material rebelOutfit;
     [SerializeField] Material maintananceWorkerOutfit;
     [SerializeField] Material fancySuitOutfit;
@@ -21,10 +21,10 @@ public class PlayerOutfitChanger : MonoBehaviour
             playerOutfit.material = prisonOutfit;
         }
 
-        //if (name == "constructionWorkerOutfit")
-        //{
-        //    playerOutfit.material = constructionWorkerOutfit;
-        //}
+        if (name == "ConstructionWorkerOutfit")
+        {
+            playerOutfit.material = constructionWorkerOutfit;
+        }
 
         if (name == "RebelOutfit")
         {

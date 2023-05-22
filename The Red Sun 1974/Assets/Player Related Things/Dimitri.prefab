@@ -628,6 +628,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerOutfit: {fileID: 19019720901085149}
   prisonOutfit: {fileID: 2100000, guid: a88d3869119363c47a1c82616e51b9f5, type: 2}
+  constructionWorkerOutfit: {fileID: 2100000, guid: bf1be5f8da44dbd49a0c3738615d4682,
+    type: 2}
   rebelOutfit: {fileID: 2100000, guid: 77d92764bce5e174d9013c23c66853e9, type: 2}
   maintananceWorkerOutfit: {fileID: 2100000, guid: 40aa09cf6e269484bac4ca292097b9e8,
     type: 2}

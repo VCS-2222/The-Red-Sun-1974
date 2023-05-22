@@ -581,6 +581,28 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""left"",
+                    ""id"": ""1a0ee4f0-45f0-457f-b570-98ac72dc5bbf"",
+                    ""path"": ""<DualShockGamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""0c1fcef0-572d-4091-8a31-10403c8929e5"",
+                    ""path"": ""<DualShockGamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""Xbox"",
                     ""id"": ""937f7b62-1473-44e0-bb59-cfdd80e563f8"",
                     ""path"": ""2DVector"",
@@ -614,6 +636,28 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""left"",
+                    ""id"": ""175eb1c6-529e-444c-aedf-64ff600a4842"",
+                    ""path"": ""<XInputController>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""0688a05e-908c-4e2b-a038-7dd25fdf9ea2"",
+                    ""path"": ""<XInputController>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""Keyboard"",
                     ""id"": ""e5354414-412c-44de-af90-18c7b1e24a6a"",
                     ""path"": ""2DVector"",
@@ -639,6 +683,28 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""name"": ""down"",
                     ""id"": ""e5f33452-105b-4aa3-b9ac-7ecafce39205"",
                     ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b632242a-8c29-45ca-9c62-c5c95588e557"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""610d3033-5abd-4992-950c-60390dc87a9f"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

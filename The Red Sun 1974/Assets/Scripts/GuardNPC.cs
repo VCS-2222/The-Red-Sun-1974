@@ -37,8 +37,12 @@ public class GuardNPC : MonoBehaviour
     [SerializeField] int currentPathPoint;
     [SerializeField] float roamReach;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource screamSource;
+    [SerializeField] AudioClip[] screams;
+
     private void Start()
-    {
+    { 
         if (hasRandomSpeed)
         {
             agent.speed = Random.Range(0.7f, 1.3f);
@@ -62,6 +66,7 @@ public class GuardNPC : MonoBehaviour
     private void Update()
     {
         SetStateOfDeathTirgger();
+        Scream();
 
         if (agent.velocity != Vector3.zero)
         {
@@ -173,6 +178,24 @@ public class GuardNPC : MonoBehaviour
         {
             return;
         }
+    }
+
+    public void Scream()
+    {
+        if (chasingPlayer)
+        {
+            if (screamSource.isPlaying)
+                return;
+
+            StartCoroutine(screamAtPlayer());
+        }
+    }
+
+    IEnumerator screamAtPlayer()
+    {
+        yield return new WaitForSeconds(5f);
+
+        screamSource.PlayOneShot(screams[Random.Range(0, screams.Length)]);
     }
 
     void SetStateOfDeathTirgger()
