@@ -11,6 +11,7 @@ public class OnTriggerActivationPlayerOutfitChanger : MonoBehaviour
         if(other.tag == "Player")
         {
             other.GetComponent<PlayerOutfitChanger>().ChangeOutfit(outfitName);
+            Destroy(gameObject);
         }
     }
 }

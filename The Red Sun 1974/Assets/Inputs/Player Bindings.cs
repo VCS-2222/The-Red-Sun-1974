@@ -37,6 +37,15 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Shoulder Torch"",
+                    ""type"": ""Button"",
+                    ""id"": ""9970ce7a-fb95-4708-8646-4a6e114e24f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Body Movement"",
                     ""type"": ""PassThrough"",
                     ""id"": ""0e732084-a13c-46f1-9e62-e23c4d5d05ef"",
@@ -300,6 +309,39 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Crouching"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1d0ea74-379d-44b3-9a3d-178b5a4eab24"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoulder Torch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0fe05fdf-4e15-414c-8306-b855cc73ae21"",
+                    ""path"": ""<DualShockGamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoulder Torch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""446d549f-0616-49c1-a103-845a252003f8"",
+                    ""path"": ""<XInputController>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoulder Torch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -984,6 +1026,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_MouseMovement = m_Player.FindAction("Mouse Movement", throwIfNotFound: true);
+        m_Player_ShoulderTorch = m_Player.FindAction("Shoulder Torch", throwIfNotFound: true);
         m_Player_BodyMovement = m_Player.FindAction("Body Movement", throwIfNotFound: true);
         m_Player_ItemInteraction = m_Player.FindAction("Item Interaction", throwIfNotFound: true);
         m_Player_GeneralInteraction = m_Player.FindAction("General Interaction", throwIfNotFound: true);
@@ -1066,6 +1109,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_MouseMovement;
+    private readonly InputAction m_Player_ShoulderTorch;
     private readonly InputAction m_Player_BodyMovement;
     private readonly InputAction m_Player_ItemInteraction;
     private readonly InputAction m_Player_GeneralInteraction;
@@ -1076,6 +1120,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
         private @PlayerBindings m_Wrapper;
         public PlayerActions(@PlayerBindings wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseMovement => m_Wrapper.m_Player_MouseMovement;
+        public InputAction @ShoulderTorch => m_Wrapper.m_Player_ShoulderTorch;
         public InputAction @BodyMovement => m_Wrapper.m_Player_BodyMovement;
         public InputAction @ItemInteraction => m_Wrapper.m_Player_ItemInteraction;
         public InputAction @GeneralInteraction => m_Wrapper.m_Player_GeneralInteraction;
@@ -1093,6 +1138,9 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                 @MouseMovement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseMovement;
                 @MouseMovement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseMovement;
                 @MouseMovement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseMovement;
+                @ShoulderTorch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoulderTorch;
+                @ShoulderTorch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoulderTorch;
+                @ShoulderTorch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoulderTorch;
                 @BodyMovement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyMovement;
                 @BodyMovement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyMovement;
                 @BodyMovement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodyMovement;
@@ -1115,6 +1163,9 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
                 @MouseMovement.started += instance.OnMouseMovement;
                 @MouseMovement.performed += instance.OnMouseMovement;
                 @MouseMovement.canceled += instance.OnMouseMovement;
+                @ShoulderTorch.started += instance.OnShoulderTorch;
+                @ShoulderTorch.performed += instance.OnShoulderTorch;
+                @ShoulderTorch.canceled += instance.OnShoulderTorch;
                 @BodyMovement.started += instance.OnBodyMovement;
                 @BodyMovement.performed += instance.OnBodyMovement;
                 @BodyMovement.canceled += instance.OnBodyMovement;
@@ -1300,6 +1351,7 @@ public partial class @PlayerBindings : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMouseMovement(InputAction.CallbackContext context);
+        void OnShoulderTorch(InputAction.CallbackContext context);
         void OnBodyMovement(InputAction.CallbackContext context);
         void OnItemInteraction(InputAction.CallbackContext context);
         void OnGeneralInteraction(InputAction.CallbackContext context);

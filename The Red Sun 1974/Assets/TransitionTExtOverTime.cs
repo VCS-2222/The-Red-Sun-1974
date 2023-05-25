@@ -20,6 +20,8 @@ public class TransitionTExtOverTime : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         binds = new PlayerBindings();
     }
 

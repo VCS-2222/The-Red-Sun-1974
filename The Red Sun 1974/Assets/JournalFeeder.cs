@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class JournalFeeder : MonoBehaviour
@@ -14,12 +15,16 @@ public class JournalFeeder : MonoBehaviour
     {
         if(other.tag == "Player")
         {
+            StartCoroutine(deathOverTime());
             playSound.Play();
             other.GetComponentInChildren<JournalLogic>().AddText(text, pageNumber);
-            if(playSound.isPlaying == false)
-            {
-                Destroy(gameObject);
-            }
         }
+    }
+
+    IEnumerator deathOverTime()
+    {
+        yield return new WaitForSeconds(0.65f);
+
+        Destroy(gameObject);
     }
 }

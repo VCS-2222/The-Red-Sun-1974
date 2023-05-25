@@ -86,10 +86,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        velocity.y -= gravity * Time.deltaTime;
-
         if (!canMove)
             return;
+
+        velocity.y -= gravity * Time.deltaTime;
+
+        if(velocity.y < -9)
+        {
+            velocity.y = -9;
+        }
 
         characterController.Move(velocity * Time.deltaTime);
 

@@ -82,7 +82,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 100
   DopplerLevel: 1
   MinDistance: 1.5
   MaxDistance: 15
@@ -197,7 +197,7 @@ Transform:
   - {fileID: 604415940549772245}
   - {fileID: 1146703101210848255}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1146703102273961831
 NavMeshAgent:
@@ -304,8 +304,8 @@ MonoBehaviour:
   currentPathPoint: 0
   roamReach: 0
   screamSource: {fileID: 1146703101673392603}
-  screams:
-  - {fileID: 8300000, guid: d3187d9261bda434e9e5a4dc0a1e3692, type: 3}
+  screams: []
+  isYelling: 0
 --- !u!65 &1146703102273961829
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Shoulder Torch",
+                    "type": "Button",
+                    "id": "9970ce7a-fb95-4708-8646-4a6e114e24f7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Body Movement",
                     "type": "PassThrough",
                     "id": "0e732084-a13c-46f1-9e62-e23c4d5d05ef",
@@ -278,6 +287,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Crouching",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1d0ea74-379d-44b3-9a3d-178b5a4eab24",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoulder Torch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0fe05fdf-4e15-414c-8306-b855cc73ae21",
+                    "path": "<DualShockGamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoulder Torch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "446d549f-0616-49c1-a103-845a252003f8",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoulder Torch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

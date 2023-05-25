@@ -40,9 +40,11 @@ public class GuardNPC : MonoBehaviour
     [Header("Audio")]
     [SerializeField] AudioSource screamSource;
     [SerializeField] AudioClip[] screams;
+    public bool isYelling;
 
     private void Start()
-    { 
+    {
+        currentPathPoint = 0;
         if (hasRandomSpeed)
         {
             agent.speed = Random.Range(0.7f, 1.3f);
@@ -61,12 +63,19 @@ public class GuardNPC : MonoBehaviour
     private void FixedUpdate()
     {
         Sight();
+
+        if (hasPresetPath)
+        {
+            canWander = false;
+            DoPresetPath();
+        }
+
+        Scream();
     }
 
     private void Update()
     {
         SetStateOfDeathTirgger();
-        Scream();
 
         if (agent.velocity != Vector3.zero)
         {
@@ -88,12 +97,6 @@ public class GuardNPC : MonoBehaviour
             animator.SetBool("run", false);
             speed = walkSpeed;
             agent.speed = speed;
-        }
-
-        if (hasPresetPath)
-        {
-            canWander = false;
-            DoPresetPath();
         }
 
         if (canWander)
@@ -182,20 +185,29 @@ public class GuardNPC : MonoBehaviour
 
     public void Scream()
     {
-        if (chasingPlayer)
+        if (chasingPlayer && !isYelling)
         {
             if (screamSource.isPlaying)
+            {
+                StopCoroutine(screamAtPlayer());
                 return;
+            }
 
             StartCoroutine(screamAtPlayer());
+        }
+        else
+        {
+            StopCoroutine(screamAtPlayer());
         }
     }
 
     IEnumerator screamAtPlayer()
     {
+        isYelling = true;
         yield return new WaitForSeconds(5f);
 
         screamSource.PlayOneShot(screams[Random.Range(0, screams.Length)]);
+        isYelling = false;
     }
 
     void SetStateOfDeathTirgger()
