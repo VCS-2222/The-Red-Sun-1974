@@ -287,7 +287,7 @@ MonoBehaviour:
   deathTriggerCollider: {fileID: 1146703102273961829}
   speed: 1
   walkSpeed: 1
-  runSpeed: 6.8
+  runSpeed: 6
   turnSpeed: 55
   stoppingDistance: 0.5
   destinationFix: 1

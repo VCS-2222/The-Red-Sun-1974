@@ -44,6 +44,10 @@ public class MainMenuLogic : MonoBehaviour
     [SerializeField] TMP_Dropdown fullScreenDropdown;
     [SerializeField] TMP_Dropdown resolutionDropdown;
 
+    [Header("Sensitivity")]
+    [SerializeField] public float sensitivityForCamera;
+    [SerializeField] Slider sensitivitySlider;
+
     Resolution[] resolutions;
 
     private void Awake()
@@ -186,6 +190,7 @@ public class MainMenuLogic : MonoBehaviour
         SetMixerVoiceThoughtSlider(voicelinesSlider, voicelines);
         SetMixerFootThoughtSlider(footstepsSlider, footsteps);
         SetMixerVehicleThoughtSlider(vehiclesSlider, vehicles);
+        SetMixerMegaphoneThoughtSlider(megaphoneSlider, megaphones);
         SetMixerMusicThoughtSlider(musicSlider, music);
         SetMixerSoundThoughtSlider(soundEffectsSlider, sfx);
     }
@@ -256,6 +261,12 @@ public class MainMenuLogic : MonoBehaviour
         PlayerPrefs.SetFloat("vh_Audio", slide.value);
         PlayerPrefs.SetString("hasPresetSettings", "yes");
     }
+    public void SetMixerMegaphoneThoughtSlider(Slider slide, AudioMixer mixer)
+    {
+        mixer.SetFloat("volume", slide.value);
+        PlayerPrefs.SetFloat("mf_Audio", slide.value);
+        PlayerPrefs.SetString("hasPresetSettings", "yes");
+    }
 
     public void SetMixerMusicThoughtSlider(Slider slide, AudioMixer mixer)
     {
@@ -271,6 +282,13 @@ public class MainMenuLogic : MonoBehaviour
         PlayerPrefs.SetString("hasPresetSettings", "yes");
     }
 
+    public void SetSensitivity(Slider slide)
+    {
+        PlayerPrefs.SetFloat("cameraSensitivity", slide.value);
+        sensitivityForCamera = slide.value;
+        PlayerPrefs.SetString("hasPresetSettings", "yes");
+    }
+
     public void LoadOptions()
     {
         voicelines.SetFloat("volume", PlayerPrefs.GetFloat("vc_Audio"));
@@ -282,6 +300,9 @@ public class MainMenuLogic : MonoBehaviour
         vehicles.SetFloat("volume", PlayerPrefs.GetFloat("vh_Audio"));
         vehiclesSlider.value = PlayerPrefs.GetFloat("vh_Audio");
 
+        megaphones.SetFloat("volume", PlayerPrefs.GetFloat("mf_Audio"));
+        megaphoneSlider.value = PlayerPrefs.GetFloat("mf_Audio");
+
         music.SetFloat("volume", PlayerPrefs.GetFloat("mc_Audio"));
         musicSlider.value = PlayerPrefs.GetFloat("mc_Audio");
 
@@ -291,6 +312,12 @@ public class MainMenuLogic : MonoBehaviour
         if (PlayerPrefs.HasKey("Screen_Resolution"))
         {
             resolutionDropdown.value = PlayerPrefs.GetInt("Screen_Resolution");
+        }
+
+        if (PlayerPrefs.HasKey("cameraSensitivity"))
+        {
+            sensitivityForCamera = PlayerPrefs.GetFloat("cameraSensitivity");
+            sensitivitySlider.value = PlayerPrefs.GetFloat("cameraSensitivity");
         }
     }
 

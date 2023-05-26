@@ -5,13 +5,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
+    public static PlayerCamera instance;
+
     [Header("Components")]
     [SerializeField] private GameObject playerBody;
     [SerializeField] private Camera actualPlayerCamera;
     [SerializeField] public PlayerBindings cameraControl;
 
     [Header("Settings and Debug")]
-    [SerializeField] private float mouseSensitivity;
+    [SerializeField] public float mouseSensitivity;
     [SerializeField] private float leftAndRightCameraAxis;
     [SerializeField] private float upAndDownCameraAxis;
     public bool ifHasControllerConnected;
@@ -24,6 +26,11 @@ public class PlayerCamera : MonoBehaviour
     {
         cameraControl = new PlayerBindings();
         cameraControl.Player.MouseMovement.performed += t => MouseMover(t.ReadValue<Vector2>());
+
+        if (PlayerPrefs.HasKey("cameraSensitivity"))
+        {
+            mouseSensitivity = PlayerPrefs.GetFloat("cameraSensitivity");
+        }
     }
 
     private void OnEnable()
@@ -62,6 +69,8 @@ public class PlayerCamera : MonoBehaviour
 
     private void MouseMover(Vector2 axis)
     {
+        mouseSensitivity = PlayerPrefs.GetFloat("cameraSensitivity");
+
         if (ifHasControllerConnected)
         {
             upAndDownCameraAxis = (axis.y * Time.deltaTime * mouseSensitivity) * 6;
