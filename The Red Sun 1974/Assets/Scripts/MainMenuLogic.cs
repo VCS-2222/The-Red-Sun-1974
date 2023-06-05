@@ -62,6 +62,11 @@ public class MainMenuLogic : MonoBehaviour
         {
             string resolution = resolutions[i].width + " by " + resolutions[i].height;
             res.Add(resolution);
+
+            if(resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                resolutionDropdown.value = i;
+            }
         }
 
         resolutionDropdown.AddOptions(res);
@@ -146,16 +151,21 @@ public class MainMenuLogic : MonoBehaviour
         if (fullScreenDropdown.value == 0)
         {
             PlayerPrefs.SetString("Full_Screen", "Yes");
+            Screen.fullScreen = true;
         }
         else if (fullScreenDropdown.value == 1)
         {
             PlayerPrefs.DeleteKey("Full_Screen");
+            Screen.fullScreen = false;
         }
     }
 
-    public void SetResolutionFromDropdown()
+    public void SetResolutionFromDropdown(int currentResolution)
     {
+        Resolution res = resolutions[currentResolution];
         PlayerPrefs.SetInt("Screen_Resolution", resolutionDropdown.value);
+
+        Screen.SetResolution(res.width, res.height, Screen.fullScreen);
     }
 
     private void Update()

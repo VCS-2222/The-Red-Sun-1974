@@ -51,10 +51,12 @@ public class QuickSettingsLogic : MonoBehaviour
         if (fullScreenDropdown.value == 0)
         {
             PlayerPrefs.SetString("Full_Screen", "Yes");
+            Screen.fullScreen = true;
         }
         else if (fullScreenDropdown.value == 1)
         {
             PlayerPrefs.DeleteKey("Full_Screen");
+            Screen.fullScreen = false;
         }
     }
 

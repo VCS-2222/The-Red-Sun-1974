@@ -58,7 +58,7 @@ public class PlayerLoseState : MonoBehaviour
             titleContext = "Guts! Guts everywhere!";
             topicContext = "An escaped convict from Area 12 had somehow managed to get out of the mines! The felon did try to escape some Guards that were chasing him but accidentally or not " +
                            "he ran on a road and got him by a car at full speed, the scene was horrible and multiple people has to have medical assistance after negative reactions from the gore! " +
-                           "now the city may rest knowing that another monster is dead but was there not another way? If any escaped convicts are reading this, please, for the sake of Communist please go the nearest " +
+                           "now the city may rest knowing that another monster is dead but was there not another way? If any escaped convicts are reading this, please, for the sake of Communism please go the nearest " +
                            "Police station near you and surrender peacefully! You can redeem yourself! We are all human! " +
                            "In other news, West Germany beat us in the World Cup of 1974! We placed second after the Netherlands and our Communist brother Poland! " +
                            "Don't let the TPFK soul die on the pitch after a small loss, we will win next cup!";
@@ -73,7 +73,7 @@ public class PlayerLoseState : MonoBehaviour
             topicContext = "Today an escaped convict of the mines of Area 12 was seen by comrades walk in front of a train. " +
                            "This is presumed by the people as a suicide, as after the train stopped after the collision a diary was found " +
                            "on the felon. He had a sad life and with barely any hope as read from his diary, this is an absolute heart-break to " +
-                           "the whole city. As even the worse criminals get a fair share of mental help from the government. Please if you feeel alone " +
+                           "the whole city. As even the worse criminals get a fair share of mental help from the government. Please if you feel alone " +
                            "or feel hopeless and aimless in life, call us at 1-800-helpme and we will try our best to save you. In other news, " +
                            "woman attacked Guard in Area 5 because she was racially profiled by the Guard, 'This outrageous behaviour will not be tolerated by the government!'. " +
                            "said the Governer of Area 5. If you see any sort of discrimination by the Guards or any comrade, please report it to someone and we'll hear your voices.";
