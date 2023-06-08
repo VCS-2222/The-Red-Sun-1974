@@ -24,7 +24,7 @@ public class PedestrianNPC : MonoBehaviour
 
     [Header("Travel")]
     [SerializeField] private Transform[] pathWaypoints;
-    [SerializeField] private Transform finalDestination;
+    [SerializeField] public Transform finalDestination;
     [SerializeField] int currentPathPoint;
     [SerializeField] float roamReach;
 
@@ -116,7 +116,7 @@ public class PedestrianNPC : MonoBehaviour
         }
     }
 
-    void TravelToFinalDestination()
+    public void TravelToFinalDestination()
     {
         canWander = false;
         hasPresetPath = false;
