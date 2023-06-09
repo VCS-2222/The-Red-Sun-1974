@@ -306,6 +306,13 @@ MonoBehaviour:
   screamSource: {fileID: 1146703101673392603}
   screams: []
   isYelling: 0
+  currentBulletsInMag: 0
+  maxBulletsInMag: 0
+  reloadTime: 0
+  isAimingGun: 0
+  bulletPrefab: {fileID: 7408573094710336611, guid: 467d4cfbbb193af458ae005cd59732fa,
+    type: 3}
+  shootPoint: {fileID: 0}
 --- !u!65 &1146703102273961829
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Booleans of/for actions")]
     [SerializeField] public bool canMove;
     [SerializeField] private bool canRun;
+    [SerializeField] bool canCrouch;
     [SerializeField] private bool isGrounded;
 
     [Header("Player Settings")]
@@ -82,6 +83,20 @@ public class PlayerMovement : MonoBehaviour
         InputOfMovement();
 
         HandleDebugStates();
+
+        if (isCrouching)
+        {
+            RaycastHit hit;
+            Physics.Raycast(transform.position, transform.up, out hit, 1);
+            if (hit.collider != null)
+            {
+                canCrouch = false;
+            }
+            else
+            {
+                canCrouch = true;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -138,6 +153,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleCrouch()
     {
+        if (!canCrouch)
+            return;
+
         isCrouching = !isCrouching;
 
         if (isCrouching)

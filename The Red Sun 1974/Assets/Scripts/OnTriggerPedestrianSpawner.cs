@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class OnTriggerPedestrianSpawner : MonoBehaviour
 {
@@ -31,11 +32,8 @@ public class OnTriggerPedestrianSpawner : MonoBehaviour
             GameObject ejs = Instantiate(pedestrianPrefects[i].npcPrefab, pedestrianPrefects[i].npcSpawn.position, pedestrianPrefects[i].npcSpawn.rotation);
             if (pedestrianPrefects[i].isChasingPlayer)
             {
-                for(int l = 0; l < finalLocation.Length; l++)
-                {
-                    ejs.GetComponent<PedestrianNPC>().finalDestination = finalLocation[l];
-                    ejs.GetComponent<PedestrianNPC>().TravelToFinalDestination();
-                }
+                ejs.GetComponent<PedestrianNPC>().finalDestination = finalLocation[(Random.Range(0, finalLocation.Length))];
+                ejs.GetComponent<PedestrianNPC>().TravelToFinalDestination();
             }
         }
     }

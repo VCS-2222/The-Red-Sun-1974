@@ -10046,6 +10046,7 @@ MonoBehaviour:
   groundCheck: {fileID: 8400317055411579164}
   canMove: 1
   canRun: 1
+  canCrouch: 1
   isGrounded: 0
   currentSpeed: 0
   walkingSpeed: 1.3

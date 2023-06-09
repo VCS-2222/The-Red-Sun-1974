@@ -42,6 +42,14 @@ public class GuardNPC : MonoBehaviour
     [SerializeField] AudioClip[] screams;
     public bool isYelling;
 
+    [Header("Gun Factors")]
+    [SerializeField] int currentBulletsInMag;
+    [SerializeField] int maxBulletsInMag;
+    [SerializeField] float reloadTime;
+    [SerializeField] bool isAimingGun;
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform shootPoint;
+
     private void Start()
     {
         currentPathPoint = 0;
@@ -53,6 +61,11 @@ public class GuardNPC : MonoBehaviour
         {
             speed = walkSpeed;
             agent.speed = speed;
+        }
+
+        if (hasGun)
+        {
+            animator.SetBool("hasGun", true);
         }
 
         agent.angularSpeed = turnSpeed;
@@ -71,6 +84,11 @@ public class GuardNPC : MonoBehaviour
         }
 
         Scream();
+
+        if (chasingPlayer && hasGun)
+        {
+            ChasePlayerWhileArmed();
+        }
     }
 
     private void Update()
@@ -105,12 +123,7 @@ public class GuardNPC : MonoBehaviour
             DoWonder();
         }
 
-        if (canStopAtPoint)
-        {
-
-        }
-
-        if (hasSetDestination || chasingPlayer)
+        if (hasSetDestination || chasingPlayer && !hasGun)
         {
             TravelToFinalDestination();
         }
@@ -161,6 +174,57 @@ public class GuardNPC : MonoBehaviour
         hasPresetPath = false;
         agent.destination = finalDestination.position;
     }
+
+    void ChasePlayerWhileArmed()
+    {
+        if(agent.remainingDistance <= sight)
+        {
+            agent.Stop();
+            if(currentBulletsInMag > 0 && !isAimingGun)
+            {
+                isAimingGun = true;
+                StartCoroutine(AimAndShootTarget());
+            }
+            
+            if(currentBulletsInMag <= 0 && isAimingGun)
+            {
+                StartCoroutine(ReloadGun());
+            }
+        }
+        else
+        {
+            agent.Resume();
+            //TravelToFinalDestination();
+        }
+    }
+
+    IEnumerator AimAndShootTarget()
+    {
+        transform.LookAt(finalDestination);
+        animator.SetBool("isAiming", true);
+
+        yield return new WaitForSeconds(1f);
+
+        GameObject bf = Instantiate(bulletPrefab, shootPoint);
+        currentBulletsInMag--;
+        bf.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
+
+        yield return new WaitForSeconds(1f);
+
+        animator.SetBool("isAiming", false);
+        isAimingGun = false;
+    }
+
+    IEnumerator ReloadGun()
+    {
+        print("Reloading gun");
+
+        yield return new WaitForSeconds(reloadTime);
+
+        currentBulletsInMag = maxBulletsInMag;
+        print("Reload Done");
+    }
+
     void Sight()
     {
         RaycastHit hit;
