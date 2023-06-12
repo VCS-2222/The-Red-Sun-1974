@@ -13,7 +13,7 @@ public class EnemyBullet : MonoBehaviour
             }
             else
             {
-                Destroy(gameObject);
+                Destroy(gameObject, 10f);
             }
         }
     }

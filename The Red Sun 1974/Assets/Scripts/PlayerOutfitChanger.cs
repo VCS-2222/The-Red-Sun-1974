@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerOutfitChanger : MonoBehaviour
 {
     [Header("Materials")]
-    [SerializeField] SkinnedMeshRenderer playerOutfit;
+    public SkinnedMeshRenderer playerOutfit;
     [SerializeField] Material prisonOutfit;
     //[SerializeField] Material casualOutfit;
     [SerializeField] Material constructionWorkerOutfit;

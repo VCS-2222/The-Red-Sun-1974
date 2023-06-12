@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class GuardNPC : MonoBehaviour
 {
+    [Header("Debug")]
+    [SerializeField] float debugRemainingDistance;
+
     [Header("Needed Components")]
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] Animator animator;
@@ -41,6 +44,9 @@ public class GuardNPC : MonoBehaviour
     [SerializeField] AudioSource screamSource;
     [SerializeField] AudioClip[] screams;
     public bool isYelling;
+    [SerializeField] AudioSource gunSource;
+    [SerializeField] AudioClip shootGun;
+    [SerializeField] AudioClip reloadGun;
 
     [Header("Gun Factors")]
     [SerializeField] int currentBulletsInMag;
@@ -49,10 +55,12 @@ public class GuardNPC : MonoBehaviour
     [SerializeField] bool isAimingGun;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform shootPoint;
+    [SerializeField] bool isReloading;
 
     private void Start()
     {
         currentPathPoint = 0;
+        currentBulletsInMag = maxBulletsInMag;
         if (hasRandomSpeed)
         {
             agent.speed = Random.Range(0.7f, 1.3f);
@@ -93,9 +101,10 @@ public class GuardNPC : MonoBehaviour
 
     private void Update()
     {
+        debugRemainingDistance = agent.remainingDistance;
         SetStateOfDeathTirgger();
 
-        if (agent.velocity != Vector3.zero)
+        if (agent.velocity != Vector3.zero && !isAimingGun)
         {
             animator.SetBool("walk", true);
         }
@@ -177,7 +186,8 @@ public class GuardNPC : MonoBehaviour
 
     void ChasePlayerWhileArmed()
     {
-        if(agent.remainingDistance <= sight)
+        float remDis = Vector3.Distance(this.transform.position, finalDestination.position);
+        if (remDis < sight)
         {
             agent.Stop();
             if(currentBulletsInMag > 0 && !isAimingGun)
@@ -186,15 +196,16 @@ public class GuardNPC : MonoBehaviour
                 StartCoroutine(AimAndShootTarget());
             }
             
-            if(currentBulletsInMag <= 0 && isAimingGun)
+            if(currentBulletsInMag <= 0 && isAimingGun && !isReloading)
             {
                 StartCoroutine(ReloadGun());
             }
         }
-        else
+
+        if (remDis >= sight)
         {
             agent.Resume();
-            //TravelToFinalDestination();
+            TravelToFinalDestination();
         }
     }
 
@@ -203,13 +214,14 @@ public class GuardNPC : MonoBehaviour
         transform.LookAt(finalDestination);
         animator.SetBool("isAiming", true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
 
         GameObject bf = Instantiate(bulletPrefab, shootPoint);
+        gunSource.PlayOneShot(shootGun);
         currentBulletsInMag--;
-        bf.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
+        bf.GetComponent<Rigidbody>().AddForce(transform.forward * 800);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
 
         animator.SetBool("isAiming", false);
         isAimingGun = false;
@@ -217,11 +229,14 @@ public class GuardNPC : MonoBehaviour
 
     IEnumerator ReloadGun()
     {
+        isReloading = true;
         print("Reloading gun");
 
+        gunSource.PlayOneShot(reloadGun);
         yield return new WaitForSeconds(reloadTime);
 
         currentBulletsInMag = maxBulletsInMag;
+        isReloading = false;
         print("Reload Done");
     }
 
@@ -232,9 +247,21 @@ public class GuardNPC : MonoBehaviour
         {
             if (hit.collider.tag == "Player")
             {
-                Debug.DrawLine(sightPoint.position, hit.point, Color.red);
-                finalDestination = hit.collider.transform;
-                chasingPlayer = true;
+                
+                string name = hit.transform.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().materials[0].name;
+
+                Debug.Log("Detected object " + name);
+
+                if ( name == "PrisonOutfit (Instance)")
+                {
+                    Debug.DrawLine(sightPoint.position, hit.point, Color.red);
+                    finalDestination = hit.collider.transform;
+                    chasingPlayer = true;
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {
